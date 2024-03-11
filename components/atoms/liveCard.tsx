@@ -10,7 +10,7 @@ export type Api = {
     english_name: string
     id: string
     name: string
-    org?: "Hololive" | "Nijisanji"
+    org?: "Hololive" | "Nijisanji" | "Aogiri Highschool" | "VSpo"
     photo: string
     type: string
   }
