@@ -14,7 +14,7 @@ interface Props {
         <nav onClick={toggleDrawer} className="px-2 py-4 bg-[#F3F4F6] cursor-pointer">
           <div className="block p-3 text-gray-900">Home</div>
         </nav>
-        <HoloButton setGroup="Hololive"/>
+        {/* <HoloButton setGroup="Hololive"/> */}
       </div>
     )
     
