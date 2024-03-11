@@ -2,6 +2,82 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500&family=Montserrat:wght@400;500;700&family=Poppins:wght@400;500&display=swap");
+
+
+body {
+  background: #f3f4f6;
+}
+
+:root {
+  --easeInOutQuart: cubic-bezier(0.77, 0.2, 0.05, 1);
+  --easeInBack: cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  --easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+button {
+  background: #98a0fb;
+  border-radius: 6px;
+  color: white;
+  font-size: 15px;
+  font-family: "Comfortaa";
+  transition: 0.2s var(--easeOutQuint);
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 230px;
+  background-color: #29384728;
+  z-index: 100;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-out;
+}
+
+.drawer.active {
+  transform: translateY(0);
+}
+@media screen and (max-width: 780px) {
+  .drawer {
+    transform: translateY(-100%);
+    width: 30%;
+  }
+  .drawer.active {
+    transform: translateX(0);
+  }
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.button-container {
+  opacity: 0;
+  animation: appear 0.8s ease-in-out forwards;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ↑追加 */
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
