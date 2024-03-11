@@ -43,6 +43,7 @@ const GroupIcon = () => {
   const getFilteredData = (org: string) => {
     return holoData.filter((data) => data.channel.org === org);
   };
+  const setGroup ="Hololive"
 
   return (
     <div className="max-md:absolute flex justify-end mr-3 max-md:items-end max-md:flex-col right-[2px] top-[60px] z-[2]">
@@ -64,7 +65,7 @@ const GroupIcon = () => {
       })} */}
 
       
-       {getFilteredData("Hololive").map((holoDatas: Api) => (
+       {getFilteredData(setGroup).map((holoDatas: Api) => (
         <a
           key={holoDatas.id}
           className="flex items-center gap-x-3.5 max-md:mt-[-32px] py-2 mx-[-7px] rounded-md text-sm text-gray-800 dark:text-gray-400"
@@ -80,7 +81,7 @@ const GroupIcon = () => {
       ))} 
 
      
-      {getFilteredData("Nijisanji").map((holoDatas: Api) => (
+      {/* {getFilteredData("Nijisanji").map((holoDatas: Api) => (
         <a
           key={holoDatas.id}
           className="flex items-center gap-x-3.5 max-md:mt-[-32px] py-2 mx-[-7px] rounded-md text-sm text-gray-800 dark:text-gray-400"
@@ -124,7 +125,7 @@ const GroupIcon = () => {
             alt="Image Description"
           />
         </a>
-      ))} 
+      ))}  */}
 
     </div>
   )
