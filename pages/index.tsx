@@ -10,7 +10,7 @@ export default function Home() {
   const toggleDrawer = () => setIsOpenDrawer(!isOpenDrawer)
 
   // const [groupData,setGroupData] = useState<Api[]>([])
-  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
+
 
   // useEffect(() => {
   //   // APIからデータを取得し、setGroupDataでstateにセットするロジックを記述
@@ -40,8 +40,6 @@ export default function Home() {
         toggleDrawer={toggleDrawer}
         toggleFixedVideo={toggleFixedVideo}
         //groupData={groupData}
-        // selectedGroup={selectedGroup}
-        // setSelectedGroup={setSelectedGroup}
       />
     </div>
   )
