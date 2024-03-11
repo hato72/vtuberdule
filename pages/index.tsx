@@ -44,27 +44,7 @@ export default function Home() {
         <Drawer toggleDrawer={toggleDrawer} isOpenDrawer={isOpenDrawer} />
         <LiveCard isFixedVideo={isFixedVideo} />
       </div>
-      {/* <Hero displayText={displayText} /> */}
-      {/* <h1 className="z-[1] top-[510px] md:text-[18px] text-[16px] whitespace-pre-line sm:mt-0 xs:mt-[-110px] xxs:mt-[-220px] mt-[-220px] mb-10">
-        <form onSubmit={submitFormWithLocalStorage}>
-          <label>
-            <input
-              autoComplete="off"
-              type="text"
-              name="name"
-              className="mx-2 border border-gray-800 rounded-md"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-            />
-          </label>
-          <input
-            type="submit"
-            value="Submit"
-            className="px-2 mx-2 bg-gray-100 border border-gray-800 cursor-pointer rounded-md hover:bg-gray-300"
-          />
-        </form>
-      </h1> */}
-      {/* <Footer /> */}
+      
     </div>
   )
 }
