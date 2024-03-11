@@ -82,7 +82,7 @@ const GroupIcon = () => {
       ))} 
 
      
-      {/* {getFilteredData("Nijisanji").map((holoDatas: Api) => (
+      {getFilteredData("Nijisanji").map((holoDatas: Api) => (
         <a
           key={holoDatas.id}
           className="flex items-center gap-x-3.5 max-md:mt-[-32px] py-2 mx-[-7px] rounded-md text-sm text-gray-800 dark:text-gray-400"
@@ -126,7 +126,7 @@ const GroupIcon = () => {
             alt="Image Description"
           />
         </a>
-      ))}  */}
+      ))} 
 
     </div>
   )
