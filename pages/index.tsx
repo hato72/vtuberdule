@@ -14,12 +14,14 @@ export default function Home() {
   const toggleFixedVideo = () => setIsFixedVideo(!isFixedVideo)
   const toggleDrawer = () => setIsOpenDrawer(!isOpenDrawer)
 
-  const submitFormWithLocalStorage = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    localStorage.setItem("displayText", inputText)
-    setdisplayText(inputText)
-    setInputText("")
-  }
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
+
+  // const submitFormWithLocalStorage = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   localStorage.setItem("displayText", inputText)
+  //   setdisplayText(inputText)
+  //   setInputText("")
+  // }
 
   useEffect(() => {
     const localDisplayText = localStorage.getItem("displayText")
