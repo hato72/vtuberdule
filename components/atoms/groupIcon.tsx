@@ -40,13 +40,13 @@ const GroupIcon = () => {
     })()
   }, [])
 
-//   const getFilteredData = (org: string) => {
-//     return holoData.filter((data) => data.channel.org === org);
-//   };
+  const getFilteredData = (org: string) => {
+    return holoData.filter((data) => data.channel.org === org);
+  };
 
   return (
     <div className="max-md:absolute flex justify-end mr-3 max-md:items-end max-md:flex-col right-[2px] top-[60px] z-[2]">
-      {holoData.map((holoDatas: Api) => {
+      {/* {holoData.map((holoDatas: Api) => {
         return isCorrectLiveHoloUrl(holoDatas) ? (
           <a
             key={holoDatas.id}
@@ -61,10 +61,10 @@ const GroupIcon = () => {
             />
           </a>
         ) : null
-      })}
+      })} */}
 
       
-      {/* {getFilteredData("Hololive").map((holoDatas: Api) => (
+       {getFilteredData("Hololive").map((holoDatas: Api) => (
         <a
           key={holoDatas.id}
           className="flex items-center gap-x-3.5 max-md:mt-[-32px] py-2 mx-[-7px] rounded-md text-sm text-gray-800 dark:text-gray-400"
@@ -77,7 +77,7 @@ const GroupIcon = () => {
             alt="Image Description"
           />
         </a>
-      ))}
+      ))} 
 
      
       {getFilteredData("Nijisanji").map((holoDatas: Api) => (
@@ -93,9 +93,9 @@ const GroupIcon = () => {
             alt="Image Description"
           />
         </a>
-      ))}
+      ))} 
 
-      {getFilteredData("Aogiri Highschool").map((holoDatas: Api) => (
+       {getFilteredData("Aogiri Highschool").map((holoDatas: Api) => (
         <a
           key={holoDatas.id}
           className="flex items-center gap-x-3.5 max-md:mt-[-32px] py-2 mx-[-7px] rounded-md text-sm text-gray-800 dark:text-gray-400"
@@ -111,7 +111,7 @@ const GroupIcon = () => {
       ))}
 
 
-      {getFilteredData("VSpo").map((holoDatas: Api) => (
+       {getFilteredData("VSpo").map((holoDatas: Api) => (
         <a
           key={holoDatas.id}
           className="flex items-center gap-x-3.5 max-md:mt-[-32px] py-2 mx-[-7px] rounded-md text-sm text-gray-800 dark:text-gray-400"
@@ -124,7 +124,7 @@ const GroupIcon = () => {
             alt="Image Description"
           />
         </a>
-      ))} */}
+      ))} 
 
     </div>
   )
