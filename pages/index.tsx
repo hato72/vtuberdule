@@ -4,6 +4,7 @@ import GroupIcon from "@/components/atoms/groupIcon"
 import LiveCard from "@/components/atoms/liveCard"
 import { Api } from "@/components/atoms/groupIcon"
 import Drawer from "../components/layouts/drawer"
+import ScheduleCard from "@/components/atoms/scheduleCard"
 
 
 export default function Home() {
@@ -43,6 +44,7 @@ export default function Home() {
       <div className="flex flex-wrap justify-center mx-2 mt-8 md:my-8 gap-2">
         <Drawer toggleDrawer={toggleDrawer} isOpenDrawer={isOpenDrawer} />
         <LiveCard isFixedVideo={isFixedVideo} />
+        <ScheduleCard />
       </div>
       
     </div>
