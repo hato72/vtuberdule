@@ -66,7 +66,7 @@ const GroupIcon = () => {
         ) : null
       })} */}
       
-       {getFilteredData(selectedGroup).map((holoDatas: Api) => (
+       {getFilteredData("Hololive").map((holoDatas: Api) => (
         <a
           key={holoDatas.id}
           className="flex items-center gap-x-3.5 max-md:mt-[-32px] py-2 mx-[-7px] rounded-md text-sm text-gray-800 dark:text-gray-400"
