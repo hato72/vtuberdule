@@ -4,7 +4,7 @@ import { isCorrectLiveHoloUrl } from "../../utils/util"
 import { Api } from "./groupIcon"
 import { GroupContext } from "./groupContext"
 
-import HOLODEX_API_KEY from "@/env"
+//import HOLODEX_API_KEY from "@/env"
 
 const ScheduleCard = () => {
   const youtube_jpeg = "https://img.youtube.com/vi/"
