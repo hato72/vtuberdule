@@ -5,6 +5,7 @@ import LiveCard from "@/components/atoms/liveCard"
 import { Api } from "@/components/atoms/groupIcon"
 import Drawer from "../components/layouts/drawer"
 import ScheduleCard from "@/components/atoms/scheduleCard"
+import dotenv from 'dotenv'
 
 
 export default function Home() {
@@ -16,6 +17,8 @@ export default function Home() {
   const toggleDrawer = () => setIsOpenDrawer(!isOpenDrawer)
 
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
+
+  dotenv.config()
 
   // const submitFormWithLocalStorage = (e: React.FormEvent<HTMLFormElement>) => {
   //   e.preventDefault()
