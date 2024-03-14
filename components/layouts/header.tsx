@@ -26,7 +26,7 @@ const Header = ({ isOpenDrawer, isFixedVideo, toggleDrawer, toggleFixedVideo }: 
           //groupData={groupData}
         />
         <div className="md:block hidden absolute pl-3 top-[8px] left-[0px] cursor-pointer">
-          <div className="text-[32px] text-slate-900">vtuberdule</div>
+          <div className="text-[32px] text-slate-900"></div>
         </div>
         <span className="cursor-pointer inline-flex justify-center items-center w-[46px] h-[46px] rounded-full border border-gray-400 text-gray-400">
           <svg
