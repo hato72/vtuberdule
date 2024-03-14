@@ -5,7 +5,7 @@ import { GlobalChangeCardContext } from "../../utils/globalChangeCardObserver"
 // import HoverVideo from "./hoverVideo"
 import { GroupContext } from "./groupContext"
 
-import liveCardFilter from "./liveCardFilter"
+// import liveCardFilter from "./liveCardFilter"
 
 //import HOLODEX_API_KEY from "@/env"
 
