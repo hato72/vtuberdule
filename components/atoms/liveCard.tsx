@@ -107,7 +107,8 @@ const LiveCard = ({ isFixedVideo }: Props) => {
           <span className="sr-only">Loading...</span>
         </div>
       ) : null}
-      {selectedGroup ===null && holoData.map((holoDatas: Api, index) => {
+      
+      {selectedGroup=== null && holoData.map((holoDatas: Api, index) => {
         return isCorrectLiveHoloUrl(holoDatas) ? (
           <div
             key={holoDatas.id}
@@ -132,7 +133,7 @@ const LiveCard = ({ isFixedVideo }: Props) => {
               ref={ref}
               style={{ display: isHidden ? "none" : "block" }}
             >
-              {/* <HoverVideo videoId={holoDatas.id} isHovering={isHovering === index} /> */}
+              
             </div>
             <div className="absolute text-xs font-bold text-center text-red-500 bottom-1 right-2 opacity-90 max-sm:text-[10px]">
               <span className="mr-[1px]">●</span>REC
@@ -156,8 +157,7 @@ const LiveCard = ({ isFixedVideo }: Props) => {
         ) : null
       })}
 
-
-      {selectedGroup=== "All Group" && holoData.map((holoDatas: Api, index) => {
+      {selectedGroup=== "All Group" && getFilteredData("All Group").map((holoDatas: Api, index) => {
         return isCorrectLiveHoloUrl(holoDatas) ? (
           <div
             key={holoDatas.id}
