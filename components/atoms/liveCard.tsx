@@ -98,6 +98,12 @@ const LiveCard = ({ isFixedVideo }: Props) => {
 
   return (
     <>
+      {/* <div className="relative">
+        <div className="absolute top-0 left-0 text-sm md:text-base lg:text-lg xl:text-xl font-bold text-center text-red-500 opacity-90 max-sm:text-[10px]">
+          LIVE
+        </div>
+      </div> */}
+
       {loading ? (
         <div
           className="fixed z-[2] top-[40%] animate-spin inline-block w-10 h-10 border-[3px] border-current border-t-transparent text-[#F3F4F6] rounded-full"
@@ -107,6 +113,7 @@ const LiveCard = ({ isFixedVideo }: Props) => {
           <span className="sr-only">Loading...</span>
         </div>
       ) : null}
+      
       
       {selectedGroup=== null && holoData.map((holoDatas: Api, index) => {
         return isCorrectLiveHoloUrl(holoDatas) ? (
