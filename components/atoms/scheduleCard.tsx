@@ -39,7 +39,8 @@ const ScheduleCard = () => {
 
   return (
     <div className="max-md:absolute flex justify-end mr-3 max-md:items-end max-md:flex-col right-[2px] top-[60px] z-[2]">
-      {selectedGroup ===null && holoData.map((holoDatas: Api) => {
+      
+      {selectedGroup===null && holoData.map((holoDatas: Api) => {
         return isCorrectLiveHoloUrl(holoDatas) ? (
           <>
             <div className="relative w-[250px] max-xl:w-[24%] max-mm:w-[32.5%] max-md:w-[48.5%] max-sm:w-[48%.5] max-xs:w-[48.5%] h-full flex flex-col border shadow-sm rounded-xl bg-[#223e] border-gray-700 shadow-slate-700/[.7]">
@@ -64,7 +65,7 @@ const ScheduleCard = () => {
         ) : null
       })}
 
-      {selectedGroup==="All Group" && holoData.map((holoDatas: Api) => {
+      {/* {selectedGroup==="All Group" && holoData.map((holoDatas: Api) => {
         return isCorrectLiveHoloUrl(holoDatas) ? (
           <>
             <div className="relative w-[250px] max-xl:w-[24%] max-mm:w-[32.5%] max-md:w-[48.5%] max-sm:w-[48%.5] max-xs:w-[48.5%] h-full flex flex-col border shadow-sm rounded-xl bg-[#223e] border-gray-700 shadow-slate-700/[.7]">
@@ -87,7 +88,7 @@ const ScheduleCard = () => {
             </div>
           </>
         ) : null
-      })}
+      })} */}
 
       {selectedGroup==="Hololive" && getFilteredData("Hololive").map((holoDatas: Api) => {
         return isCorrectLiveHoloUrl(holoDatas) ? (
