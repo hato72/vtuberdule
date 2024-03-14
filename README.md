@@ -8,5 +8,9 @@ yarn dev
 ```
 
 
-####
+#### デプロイ
 https://vtuberdule-pink.vercel.app/
+
+
+##### 開発メモ
+配信中と配信予定の間に文字を入れたい
