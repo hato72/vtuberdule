@@ -115,7 +115,7 @@ const ScheduleCard = () => {
         ) : null
       })}
 
-      {selectedGroup==="Njisanji" && getFilteredData("Njisanji").map((holoDatas: Api) => {
+      {selectedGroup==="Nijisanji" && getFilteredData("Nijisanji").map((holoDatas: Api) => {
         return isCorrectLiveHoloUrl(holoDatas) ? (
           <>
             <div className="relative w-[250px] max-xl:w-[24%] max-mm:w-[32.5%] max-md:w-[48.5%] max-sm:w-[48%.5] max-xs:w-[48.5%] h-full flex flex-col border shadow-sm rounded-xl bg-[#223e] border-gray-700 shadow-slate-700/[.7]">
