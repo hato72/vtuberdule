@@ -14,6 +14,9 @@ interface Props {
           <div className="block p-3 text-gray-900">Home</div>
         </nav>
         <HoloButton setGroup="Hololive"/>
+        <HoloButton setGroup="Nijisanji" />
+        <HoloButton setGroup="Aogiri Highschool" />
+        <HoloButton setGroup="VSpo" />
       </div>
     )
     
