@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { isCorrectLiveHoloUrl } from "../../utils/util"
 import HoloButton from "./Hololive"
+import { GroupContext } from "./groupContext"
 
 export type Api = {
   available_at: string
@@ -45,10 +46,13 @@ const GroupIcon = () => {
     return holoData.filter((data) => data.channel.org === org);
   };
 
+  // const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
+  const {selectedGroup} = useContext(GroupContext)
+
 
   return (
     <div className="max-md:absolute flex justify-end mr-3 max-md:items-end max-md:flex-col right-[2px] top-[60px] z-[2]">
-      {/* {holoData.map((holoDatas: Api) => {
+      {selectedGroup === null && holoData.map((holoDatas: Api) => {
         return isCorrectLiveHoloUrl(holoDatas) ? (
           <a
             key={holoDatas.id}
@@ -63,9 +67,9 @@ const GroupIcon = () => {
             />
           </a>
         ) : null
-      })} */}
+      })}
       
-       {getFilteredData("Hololive").map((holoDatas: Api) => (
+      {selectedGroup=== "Hololive" && getFilteredData("Hololive").map((holoDatas: Api) => (
         <a
           key={holoDatas.id}
           className="flex items-center gap-x-3.5 max-md:mt-[-32px] py-2 mx-[-7px] rounded-md text-sm text-gray-800 dark:text-gray-400"
@@ -79,9 +83,8 @@ const GroupIcon = () => {
           />
         </a>
       ))} 
-
      
-      {getFilteredData("Nijisanji").map((holoDatas: Api) => (
+      {selectedGroup==="Nijisanji" && getFilteredData("Nijisanji").map((holoDatas: Api) => (
         <a
           key={holoDatas.id}
           className="flex items-center gap-x-3.5 max-md:mt-[-32px] py-2 mx-[-7px] rounded-md text-sm text-gray-800 dark:text-gray-400"
@@ -96,7 +99,7 @@ const GroupIcon = () => {
         </a>
       ))} 
 
-       {getFilteredData("Aogiri Highschool").map((holoDatas: Api) => (
+       {selectedGroup==="Aogiri Highschool" && getFilteredData("Aogiri Highschool").map((holoDatas: Api) => (
         <a
           key={holoDatas.id}
           className="flex items-center gap-x-3.5 max-md:mt-[-32px] py-2 mx-[-7px] rounded-md text-sm text-gray-800 dark:text-gray-400"
@@ -112,7 +115,7 @@ const GroupIcon = () => {
       ))}
 
 
-       {getFilteredData("VSpo").map((holoDatas: Api) => (
+       {selectedGroup==="VSpo" && getFilteredData("VSpo").map((holoDatas: Api) => (
         <a
           key={holoDatas.id}
           className="flex items-center gap-x-3.5 max-md:mt-[-32px] py-2 mx-[-7px] rounded-md text-sm text-gray-800 dark:text-gray-400"
