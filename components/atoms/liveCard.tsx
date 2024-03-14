@@ -80,8 +80,8 @@ const LiveCard = ({ isFixedVideo }: Props) => {
       const res = await fetch(holoUrl, {
         headers: {
           //"X-APIKEY": process.env.NEXT_PUBLIC_API_KEY || "",
-          //"X-APIKEY": process.env.HOLODEX_API_KEY || ""
-          "X-APIKEY": HOLODEX_API_KEY
+          "X-APIKEY": process.env.HOLODEX_API_KEY || ""
+          //"X-APIKEY": HOLODEX_API_KEY
         },
       })
       const users = await res.json()
