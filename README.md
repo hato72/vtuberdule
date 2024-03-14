@@ -14,3 +14,6 @@ https://vtuberdule-pink.vercel.app/
 
 ##### 開発メモ
 配信中と配信予定の間に文字を入れたい
+
+##### 参考
+https://zenn.dev/eternaleight/books/fedd5f1ce2f9fc
