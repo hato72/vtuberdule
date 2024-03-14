@@ -45,7 +45,7 @@ const GroupIcon = () => {
     return holoData.filter((data) => data.channel.org === org);
   };
 
-  const selectedGroup = "Hololive"
+  //const selectedGroup = "Hololive"
 
   return (
     <div className="max-md:absolute flex justify-end mr-3 max-md:items-end max-md:flex-col right-[2px] top-[60px] z-[2]">
