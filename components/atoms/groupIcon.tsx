@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { isCorrectLiveHoloUrl } from "../../utils/util"
 import HoloButton from "./Hololive"
 import { GroupContext } from "./groupContext"
+import HOLODEX_API_KEY from "@/env"
 
 export type Api = {
   available_at: string
@@ -30,11 +31,15 @@ const GroupIcon = () => {
   const holoVideo = "https://www.youtube.com/watch?v="
   const holoUrl = "https://holodex.net/api/v2/live/"
   const [holoData, setHoloData] = useState<Api[]>([])
+
+  //const dotenv = require('dotenv').config();
+  
   useEffect(() => {
     ;(async () => {
       const res = await fetch(holoUrl, {
         headers: {
-          "X-APIKEY": "c910c475-f3b8-4980-b69a-4045e6aa10ff",
+          //"X-APIKEY": "",
+          "X-APIKEY": HOLODEX_API_KEY
         },
       })
       const users = await res.json()

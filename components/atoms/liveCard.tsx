@@ -7,6 +7,8 @@ import { GroupContext } from "./groupContext"
 
 import liveCardFilter from "./liveCardFilter"
 
+import HOLODEX_API_KEY from "@/env"
+
 export type Api = {
   available_at: string
   channel: {
@@ -70,12 +72,16 @@ const LiveCard = ({ isFixedVideo }: Props) => {
     return () => window.removeEventListener("resize", handleResize)
   }, [ref])
 
+  //const dotenv = require('dotenv').config();
+
   useEffect(() => {
     setLoading(true)
     ;(async () => {
       const res = await fetch(holoUrl, {
         headers: {
-          "X-APIKEY": process.env.NEXT_PUBLIC_API_KEY || "c910c475-f3b8-4980-b69a-4045e6aa10ff",
+          //"X-APIKEY": process.env.NEXT_PUBLIC_API_KEY || "",
+          //"X-APIKEY": process.env.HOLODEX_API_KEY || ""
+          "X-APIKEY": HOLODEX_API_KEY
         },
       })
       const users = await res.json()
