@@ -125,7 +125,7 @@ const LiveCard = ({ isFixedVideo }: Props) => {
             onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
             onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
           >
-            {isFixedVideo ? (
+            {/* {isFixedVideo ? (
               <button
                 className={`${
                   fixedVideo ? "opacity-80" : "opacity-30"
@@ -134,7 +134,7 @@ const LiveCard = ({ isFixedVideo }: Props) => {
               >
                 🧷 Preview固定 {fixedVideo ? "on" : "off"}
               </button>
-            ) : undefined}
+            ) : undefined} */}
             <div
               className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
               ref={ref}
@@ -174,16 +174,7 @@ const LiveCard = ({ isFixedVideo }: Props) => {
             onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
             onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
           >
-            {isFixedVideo ? (
-              <button
-                className={`${
-                  fixedVideo ? "opacity-80" : "opacity-30"
-                } hover:opacity-100 rounded-t-[11px] mb-[0.5px]`}
-                onClick={handleFixed}
-              >
-                🧷 Preview固定 {fixedVideo ? "on" : "off"}
-              </button>
-            ) : undefined}
+            
             <div
               className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
               ref={ref}
@@ -224,16 +215,7 @@ const LiveCard = ({ isFixedVideo }: Props) => {
             onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
             onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
           >
-            {isFixedVideo ? (
-              <button
-                className={`${
-                  fixedVideo ? "opacity-80" : "opacity-30"
-                } hover:opacity-100 rounded-t-[11px] mb-[0.5px]`}
-                onClick={handleFixed}
-              >
-                🧷 Preview固定 {fixedVideo ? "on" : "off"}
-              </button>
-            ) : undefined}
+            
             <div
               className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
               ref={ref}
@@ -273,16 +255,7 @@ const LiveCard = ({ isFixedVideo }: Props) => {
             onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
             onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
           >
-            {isFixedVideo ? (
-              <button
-                className={`${
-                  fixedVideo ? "opacity-80" : "opacity-30"
-                } hover:opacity-100 rounded-t-[11px] mb-[0.5px]`}
-                onClick={handleFixed}
-              >
-                🧷 Preview固定 {fixedVideo ? "on" : "off"}
-              </button>
-            ) : undefined}
+            
             <div
               className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
               ref={ref}
@@ -322,16 +295,7 @@ const LiveCard = ({ isFixedVideo }: Props) => {
             onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
             onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
           >
-            {isFixedVideo ? (
-              <button
-                className={`${
-                  fixedVideo ? "opacity-80" : "opacity-30"
-                } hover:opacity-100 rounded-t-[11px] mb-[0.5px]`}
-                onClick={handleFixed}
-              >
-                🧷 Preview固定 {fixedVideo ? "on" : "off"}
-              </button>
-            ) : undefined}
+            
             <div
               className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
               ref={ref}
@@ -371,16 +335,7 @@ const LiveCard = ({ isFixedVideo }: Props) => {
             onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
             onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
           >
-            {isFixedVideo ? (
-              <button
-                className={`${
-                  fixedVideo ? "opacity-80" : "opacity-30"
-                } hover:opacity-100 rounded-t-[11px] mb-[0.5px]`}
-                onClick={handleFixed}
-              >
-                🧷 Preview固定 {fixedVideo ? "on" : "off"}
-              </button>
-            ) : undefined}
+            
             <div
               className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
               ref={ref}
