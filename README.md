@@ -11,10 +11,9 @@ yarn dev
 #### デプロイ先
 https://vtuberdule-pink.vercel.app/
 
+#### 参考
+https://zenn.dev/eternaleight/books/fedd5f1ce2f9fc
+
 
 #### 開発メモ
 
-
-
-#### 参考
-https://zenn.dev/eternaleight/books/fedd5f1ce2f9fc
