@@ -6,6 +6,7 @@ import { Api } from "@/components/atoms/groupIcon"
 import Drawer from "../components/layouts/drawer"
 import ScheduleCard from "@/components/atoms/scheduleCard"
 import dotenv from 'dotenv'
+import TextComponent from "@/components/atoms/TextComponent"
 
 
 export default function Home() {
@@ -44,9 +45,11 @@ export default function Home() {
       <div className="w-full md:hidden">
         <GroupIcon/>
       </div>
+      <TextComponent text="--Live--" />
       <div className="flex flex-wrap justify-center mx-2 mt-8 md:my-8 gap-2">
         <Drawer toggleDrawer={toggleDrawer} isOpenDrawer={isOpenDrawer} />
         <LiveCard isFixedVideo={isFixedVideo} />
+        <TextComponent text="--Schedule--" />
         <ScheduleCard />
       </div>
       
