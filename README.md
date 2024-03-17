@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+#### Getting Started
 ```bash
 npm run dev
 # or
@@ -12,8 +12,8 @@ yarn dev
 https://vtuberdule-pink.vercel.app/
 
 
-##### 開発メモ
+#### 開発メモ
 
 
-##### 参考
+#### 参考
 https://zenn.dev/eternaleight/books/fedd5f1ce2f9fc
