@@ -80,7 +80,7 @@ const ScheduleCard = () => {
         ) : null
       })}
 
-      {selectedGroup==="All Group" && getFilteredData("All Group").map((holoDatas: Api) => {
+      {selectedGroup==="All Group" && holoData.map((holoDatas: Api) => {
         return isCorrectScheduleHoloUrl(holoDatas) ? (
           <div
             key={holoDatas.id}
