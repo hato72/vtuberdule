@@ -29,12 +29,12 @@ interface Props {
             {isOpenDrawer ? "Close" : "Open"}
           </span>
         </button>
-        <button onClick={toggleFixedVideo} className="hover:bg-[#8890eb] w-[130px] h-[40px] ml-3">
+        {/* <button onClick={toggleFixedVideo} className="hover:bg-[#8890eb] w-[130px] h-[40px] ml-3">
           PVButton{" "}
           <span className="border shadow-[0.5px_0.5px_1px_0px_#333] p-[4px] rounded-[4px]">
             {isFixedVideo ? "On" : "Off"}
           </span>
-        </button>
+        </button> */}
 
       </div>
     )
