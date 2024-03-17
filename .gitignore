@@ -41,3 +41,5 @@ env.ts
 
 /components/layouts/footer.tsx
 /components/layouts/hero.tsx
+/components/atoms/liveCardFilter.tsx
+/components/atoms/scheduleCardFilter.tsx
