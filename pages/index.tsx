@@ -19,6 +19,14 @@ export default function Home() {
 
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
 
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const onSearch = (query: string) => {
+    setInputText(query); // ここで必要に応じてクエリを処理する
+    setSearchQuery(query); // 検索クエリを更新
+    //setSelectedGroup(null);
+  };
+
   dotenv.config()
 
   // const submitFormWithLocalStorage = (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,6 +49,7 @@ export default function Home() {
         toggleDrawer={toggleDrawer}
         toggleFixedVideo={toggleFixedVideo}
         //groupData={groupData}
+        onSearch = {onSearch}
       />
       <div className="w-full md:hidden">
         <GroupIcon/>
@@ -48,9 +57,9 @@ export default function Home() {
       <TextComponent text="--Live--" />
       <div className="flex flex-wrap justify-center mx-2 mt-8 md:my-8 gap-2">
         <Drawer toggleDrawer={toggleDrawer} isOpenDrawer={isOpenDrawer} />
-        <LiveCard isFixedVideo={isFixedVideo} />
+        <LiveCard isFixedVideo={isFixedVideo} searchQuery={searchQuery} />
         <TextComponent text="--Schedule--" />
-        <ScheduleCard />
+        <ScheduleCard searchQuery={searchQuery}/>
       </div>
       
     </div>

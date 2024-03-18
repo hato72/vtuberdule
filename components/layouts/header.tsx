@@ -9,16 +9,19 @@ interface Props {
   toggleDrawer: () => void
   toggleFixedVideo: () => void
   //groupData: Api[]
+  onSearch: (query:string) => void
 }
 
-// const [searchQuery, setSearchQuery] = useState('');
-// const [selectedStreamer, setSelectedStreamer] = useState(null);
-// const handleSearch = (e) => {
-//   setSearchQuery(e.target.value)
-//   setSelectedStreamer(e.target.value ? e.target.value : null)
-// };
 
-const Header = ({ isOpenDrawer, isFixedVideo, toggleDrawer, toggleFixedVideo }: Props) => {
+
+const Header = ({ isOpenDrawer, isFixedVideo, toggleDrawer, toggleFixedVideo, onSearch }: Props) => {
+  
+  const [searchQuery, setSearchQuery] = useState('');
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    onSearch(e.target.value); // 検索クエリを親コンポーネントに渡す
+  };
+
   return (
     <>
       <div className="bg-[#eaeaef] w-full h-[70px] flex items-center justify-end py-4 pr-3 gap-3">
@@ -35,15 +38,13 @@ const Header = ({ isOpenDrawer, isFixedVideo, toggleDrawer, toggleFixedVideo }: 
         />
         
         {/* 検索窓 */}
-        {/* <div className="flex items-center">
-          <input
-            type="text"
-            placeholder="検索"
-            value={searchQuery}
-            onChange={handleSearch}
-            className="px-2 py-1 rounded-md"
-          />
-        </div> */}
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={handleSearch}
+          className="px-2 py-1 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
+        />
 
         <div className="md:block hidden absolute pl-3 top-[8px] left-[0px] cursor-pointer">
           <div className="text-[32px] text-slate-900"></div>
