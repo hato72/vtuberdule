@@ -1,6 +1,7 @@
 import GroupIcon from "../atoms/groupIcon"
 import ActionControlsButton from "../atoms/actionControlButton"
 import { Api } from "../atoms/groupIcon"
+import { useState } from "react"
 
 interface Props {
   isOpenDrawer: boolean
@@ -9,6 +10,13 @@ interface Props {
   toggleFixedVideo: () => void
   //groupData: Api[]
 }
+
+// const [searchQuery, setSearchQuery] = useState('');
+// const [selectedStreamer, setSelectedStreamer] = useState(null);
+// const handleSearch = (e) => {
+//   setSearchQuery(e.target.value)
+//   setSelectedStreamer(e.target.value ? e.target.value : null)
+// };
 
 const Header = ({ isOpenDrawer, isFixedVideo, toggleDrawer, toggleFixedVideo }: Props) => {
   return (
@@ -25,6 +33,18 @@ const Header = ({ isOpenDrawer, isFixedVideo, toggleDrawer, toggleFixedVideo }: 
 
           //groupData={groupData}
         />
+        
+        {/* 検索窓 */}
+        {/* <div className="flex items-center">
+          <input
+            type="text"
+            placeholder="検索"
+            value={searchQuery}
+            onChange={handleSearch}
+            className="px-2 py-1 rounded-md"
+          />
+        </div> */}
+
         <div className="md:block hidden absolute pl-3 top-[8px] left-[0px] cursor-pointer">
           <div className="text-[32px] text-slate-900"></div>
         </div>

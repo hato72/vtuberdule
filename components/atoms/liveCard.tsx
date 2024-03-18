@@ -96,6 +96,14 @@ const LiveCard = ({ isFixedVideo }: Props) => {
   };
   const {selectedGroup} = useContext(GroupContext)
 
+
+  const Groupfilter = () => {
+    if(selectedGroup === null || selectedGroup === "All Group"){
+      return holoData
+    }
+    return getFilteredData(selectedGroup)
+  }
+
   return (
     <>
       {/* <div className="relative">
@@ -114,8 +122,8 @@ const LiveCard = ({ isFixedVideo }: Props) => {
         </div>
       ) : null}
       
-      
-      {selectedGroup=== null && holoData.map((holoDatas: Api, index) => {
+      {Groupfilter().map((holoDatas: Api, index) => {
+      {/* {selectedGroup=== null && holoData.map((holoDatas: Api, index) => { */}
         return isCorrectLiveHoloUrl(holoDatas) ? (
           <div
             key={holoDatas.id}
@@ -164,7 +172,7 @@ const LiveCard = ({ isFixedVideo }: Props) => {
         ) : null
       })}
 
-      {selectedGroup=== "All Group" && holoData.map((holoDatas: Api, index) => {
+      {/* {selectedGroup=== "All Group" && holoData.map((holoDatas: Api, index) => {
         return isCorrectLiveHoloUrl(holoDatas) ? (
           <div
             key={holoDatas.id}
@@ -363,7 +371,7 @@ const LiveCard = ({ isFixedVideo }: Props) => {
             </a>
           </div>
         ) : null
-      })}
+      })} */}
     </>
   )
 }

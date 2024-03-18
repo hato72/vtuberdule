@@ -36,16 +36,33 @@ const ScheduleCard = () => {
     })()
   }, [])
 
+  //事務所を判別する関数
   const getFilteredData = (org: string) => {
     return holoData.filter((data) => data.channel.org === org);
   };
   const {selectedGroup} = useContext(GroupContext)
 
+  
+  const Groupfilter = () => { //最初の画面もしくはAll Groupボタンが押された状態の時はholodataを返し、それ以外のボタンであればgetFilterでグループ判別
+    if(selectedGroup === null || selectedGroup === "All Group"){
+      return holoData
+    }
+    return getFilteredData(selectedGroup)
+  }
+
+  // 検索クエリにマッチする配信のみを表示するフィルター関数
+  // const filterScheduleByStreamer = (schedule) => {
+  //   if (!selectedStreamer) return true; // 配信者が選択されていない場合は全て表示
+  //   const channelName = schedule.channel.name.toLowerCase();
+  //   const query = selectedStreamer.toLowerCase();
+  //   return channelName.includes(query);
+  // }
+
   return (
     <div className="flex flex-wrap justify-center h-full gap-2">
       
-      
-      {selectedGroup===null && holoData.map((holoDatas: Api) => {
+      {Groupfilter().map((holoDatas: Api) => {
+      {/* {selectedGroup===null && holoData.map((holoDatas: Api) => { */}
         return isCorrectScheduleHoloUrl(holoDatas) ? (
           <div
             key={holoDatas.id}
@@ -80,7 +97,7 @@ const ScheduleCard = () => {
         ) : null
       })}
 
-      {selectedGroup==="All Group" && holoData.map((holoDatas: Api) => {
+      {/* {selectedGroup==="All Group" && holoData.map((holoDatas: Api) => {
         return isCorrectScheduleHoloUrl(holoDatas) ? (
           <div
             key={holoDatas.id}
@@ -253,7 +270,10 @@ const ScheduleCard = () => {
             </a>
           </div>
         ) : null
-      })}
+      })} */}
+
+
+      
 
 
 
