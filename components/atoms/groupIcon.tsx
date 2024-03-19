@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { isCorrectLiveHoloUrl } from "../../utils/util"
+import { isCorrectLiveHoloUrl,isCorrectScheduleHoloUrl } from "../../utils/util"
 import HoloButton from "./Hololive"
 import { GroupContext } from "./groupContext"
 import { Api } from "./liveCard"
@@ -55,9 +55,9 @@ const GroupIcon = () => {
   const getFilteredData = (org: string) => {
     return holoData.filter((data) => data.channel.org === org);
   };
-
   // const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
   const {selectedGroup} = useContext(GroupContext)
+
 
   const Groupfilter = () => {
     if(selectedGroup === null || selectedGroup === "All Group"){
@@ -67,25 +67,44 @@ const GroupIcon = () => {
   }
 
 
+  // const getLiveIcons = () => {
+  //   return Groupfilter().filter(Data => isCorrectLiveHoloUrl(Data))
+  // }
+  // const getScheduleIcons = () => {
+  //   return Groupfilter().filter(Data => isCorrectScheduleHoloUrl(Data))
+  // }
+  // const LiveIcons = getLiveIcons()
+  // const ScheduleIcons = getScheduleIcons()
+
+
   return (
     <div className="max-md:absolute flex justify-end mr-3 max-md:items-end max-md:flex-col right-[2px] top-[60px] z-[2]">
       
-      
       {Groupfilter().map((holoDatas: Api) => {
-        return isCorrectLiveHoloUrl(holoDatas) ? (
+        const isLive = isCorrectLiveHoloUrl(holoDatas)
+        const isSchedule = isCorrectScheduleHoloUrl(holoDatas)
+
+        return (
           <a
             key={holoDatas.id}
             className="flex items-center gap-x-3.5 max-md:mt-[-32px] py-2 mx-[-7px] rounded-md text-sm text-gray-800 dark:text-gray-400"
             target="_blank"
             href={`${holoVideo}${holoDatas.id}`}
           >
-            <img
+            <div className={`inline-block md:h-[2.875rem] h-[3.475rem] md:w-[2.875rem] w-[3.475rem] rounded-full ring-1 ${isLive ? 'ring-red-600' : isSchedule ? 'ring-blue-600' : ''}`}>
+              <img
+                className="inline-block w-full h-full rounded-full"
+                src={holoDatas.channel.photo}
+                alt="Image Description"
+              />
+            </div>
+            {/* <img
               className="inline-block md:h-[2.875rem] h-[3.475rem] md:w-[2.875rem] w-[3.475rem] rounded-full ring-1 ring-red-600"
               src={holoDatas.channel.photo}
               alt="Image Description"
-            />
+            /> */}
           </a>
-        ) : null
+        )
       })}
 
       {/* {selectedGroup === null && holoData.map((holoDatas: Api) => {
