@@ -81,7 +81,8 @@ const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
       const res = await fetch(holoUrl, {
         headers: {
           //"X-APIKEY": process.env.HOLODEX_API_KEY || "",
-          "X-APIKEY": process.env.HOLODEX_API_KEY || "c910c475-f3b8-4980-b69a-4045e6aa10ff"
+          //"X-APIKEY": process.env.HOLODEX_API_KEY || "c910c475-f3b8-4980-b69a-4045e6aa10ff"
+          "X-APIKEY": "c910c475-f3b8-4980-b69a-4045e6aa10ff"
           //"X-APIKEY": HOLODEX_API_KEY
         },
       })
