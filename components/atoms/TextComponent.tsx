@@ -6,7 +6,7 @@ interface TextComponentProps{
 
 const TextComponent: React.FC<TextComponentProps> = ({text}) => {
     return (
-        <div className="w-full text-center py-2 bg-blue-200 text-gray-700">
+        <div className="w-full h-10 bg-white border border-[#98a0fb] text-[#98a0fb] rounded-md flex justify-center items-center mx-auto my-4">
             {text}
         </div>
     )
