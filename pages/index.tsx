@@ -2,7 +2,7 @@ import { useState,useEffect} from "react"
 import Header from "../components/layouts/header"
 import GroupIcon from "@/components/atoms/groupIcon"
 import LiveCard from "@/components/atoms/liveCard"
-import { Api } from "@/components/atoms/groupIcon"
+//import { Api } from "@/components/atoms/groupIcon"
 import Drawer from "../components/layouts/drawer"
 import ScheduleCard from "@/components/atoms/scheduleCard"
 import dotenv from 'dotenv'
