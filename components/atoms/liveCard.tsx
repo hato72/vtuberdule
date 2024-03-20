@@ -29,7 +29,7 @@ export type Api = {
   title: string
   topic_id: string
   type: string
-  sort: "start_actual"
+  sort: string
 }
 
 interface Props {
@@ -111,19 +111,46 @@ const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
 
 
   // 検索クエリに一致する配信者をフィルタリングする関数
+  // const filterSearchResults = () => {
+  //   if (!searchQuery) { //検索窓に何も入っていないときはそのまま
+  //     return holoData;
+  //   }
+
+  //   if (selectedGroup === null || selectedGroup === "All Group"){ //検索窓に文字列が入力されていて、かつ初期画面かAll Groupボタンを押していた場合
+  //     return holoData.filter((holoData) =>
+  //       holoData.channel.name.toLowerCase().normalize().includes(searchQuery.toLowerCase().normalize())
+  //     );
+  //   }
+  //   //All Group以外のボタンを押している状態で入力を行った場合
+  //   return holoData.filter((Data) =>
+  //       Data.channel.org === selectedGroup && Data.channel.name.toLowerCase().normalize().includes(searchQuery.toLowerCase().normalize())
+  //   );
+  // };
+
   const filterSearchResults = () => {
     if (!searchQuery) { //検索窓に何も入っていないときはそのまま
       return holoData;
     }
+
+    const searchQuery_ = searchQuery.toLowerCase()
+
     if (selectedGroup === null || selectedGroup === "All Group"){ //検索窓に文字列が入力されていて、かつ初期画面かAll Groupボタンを押していた場合
-      return holoData.filter((holoData) =>
-        holoData.channel.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      return holoData.filter((holoData) =>{
+        const channel_ = holoData.channel.name.toLowerCase().includes(searchQuery_)
+        const title_ = holoData.title.toLowerCase().includes(searchQuery_)
+        return (
+          channel_ || title_
+        )
+      });
     }
     //All Group以外のボタンを押している状態で入力を行った場合
-    return holoData.filter((Data) =>
-        Data.channel.org === selectedGroup && Data.channel.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    return holoData.filter((holoData) =>{
+      const channel_ = holoData.channel.name.toLowerCase().includes(searchQuery_)
+      const title_ = holoData.title.toLowerCase().includes(searchQuery_)
+      return (
+        holoData.channel.org === selectedGroup && (channel_ || title_)
+      )
+    });
   };
 
   // レンダリングする配信者データを決定する
