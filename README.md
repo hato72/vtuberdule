@@ -12,6 +12,9 @@ yarn dev
 https://vtuberdule-pink.vercel.app/
 
 
+#### 参考
+https://github.com/eternaleight/custom-holo-app
+
 #### 開発メモ
 配信をスケジュールしているアイコン(青丸で囲ったアイコン)が右側に来てしまう =>
 sort = start_actualにするとできそう
