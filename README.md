@@ -17,6 +17,7 @@ https://github.com/eternaleight/custom-holo-app
 
 #### 主な機能
 Vtuber名検索、タイトル検索機能
+
 事務所別配信状況表示機能
 
 #### 開発メモ
