@@ -29,6 +29,7 @@ export type Api = {
   title: string
   topic_id: string
   type: string
+  sort: "start_actual"
 }
 
 interface Props {
@@ -119,7 +120,7 @@ const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
         holoData.channel.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
-    //入力があり、All Group以外のボタンを押していた場合
+    //All Group以外のボタンを押している状態で入力を行った場合
     return holoData.filter((Data) =>
         Data.channel.org === selectedGroup && Data.channel.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
