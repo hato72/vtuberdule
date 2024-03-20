@@ -18,6 +18,8 @@ interface Props {
         <HoloButton setGroup="Nijisanji" />
         <HoloButton setGroup="Aogiri Highschool" />
         <HoloButton setGroup="VSpo" />
+        <HoloButton setGroup="774inc" />
+        <HoloButton setGroup="Neo-Porte" />
       </div>
     )
     
