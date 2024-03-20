@@ -59,11 +59,18 @@ const GroupIcon = () => {
   const {selectedGroup} = useContext(GroupContext)
 
 
+  // const Groupfilter = () => {
+  //   if(selectedGroup === null || selectedGroup === "All Group"){
+  //     return holoData
+  //   }
+  //   return getFilteredData(selectedGroup)
+  // }
   const Groupfilter = () => {
-    if(selectedGroup === null || selectedGroup === "All Group"){
-      return holoData
+    let fiterData = holoData
+    if (selectedGroup !== null && selectedGroup !== "All Group"){
+      fiterData = getFilteredData(selectedGroup)
     }
-    return getFilteredData(selectedGroup)
+    return fiterData
   }
 
 
@@ -91,7 +98,7 @@ const GroupIcon = () => {
             target="_blank"
             href={`${holoVideo}${holoDatas.id}`}
           >
-            <div className={`inline-block md:h-[2.875rem] h-[3.475rem] md:w-[2.875rem] w-[3.475rem] rounded-full ring-1 ${isLive ? 'ring-red-600' : isSchedule ? 'ring-blue-600' : ''}`}>
+            <div className={`inline-block md:h-[2.875rem] h-[3.475rem] md:w-[2.875rem] w-[3.475rem] rounded-full ring-1 ${isSchedule ? 'ring-blue-600' : isLive ? 'ring-red-600' : ''}`}>
               <img
                 className="inline-block w-full h-full rounded-full"
                 src={holoDatas.channel.photo}
