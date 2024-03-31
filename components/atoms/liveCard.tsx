@@ -256,6 +256,11 @@ const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
           </div>
         ) : null
       })}
+    </>
+  )
+}  
+
+export default LiveCard
 
       {/* {selectedGroup=== "All Group" && holoData.map((holoDatas: Api, index) => {
         return isCorrectLiveHoloUrl(holoDatas) ? (
@@ -457,8 +462,8 @@ const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
           </div>
         ) : null
       })} */}
-    </>
-  )
-}
+    // </>
+//   )
+// }
 
-export default LiveCard
+// export default LiveCard

@@ -14,6 +14,7 @@ https://vtuberdule-pink.vercel.app/
 
 #### 参考
 https://github.com/eternaleight/custom-holo-app
+https://docs.holodex.net/
 
 #### 主な機能
 Vtuber名検索、タイトル検索機能
@@ -22,7 +23,6 @@ Vtuber名検索、タイトル検索機能
 
 #### 開発メモ
 配信をスケジュールしているアイコン(青丸で囲ったアイコン)が右側に来てしまう =>
-sort = start_actualにするとできそう
+sort = start_actualにするとできそう?
 
-ひらがなとカタカナの変換ができてない
-
+ひらがなとカタカナ両対応での検索ができていない
