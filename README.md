@@ -8,7 +8,7 @@ yarn dev
 ```
 
 
-#### デプロイ先
+#### デプロイ先(vercel)
 https://vtuberdule-pink.vercel.app/
 
 

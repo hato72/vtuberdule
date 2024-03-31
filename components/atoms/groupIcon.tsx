@@ -43,8 +43,7 @@ const GroupIcon = () => {
       const res = await fetch(holoUrl, {
         headers: {
           "X-APIKEY": process.env.NEXT_PUBLIC_HOLODEX_API_KEY || ""
-          //"X-APIKEY": HOLODEX_API_KEY
-          //"X-APIKEY": "c910c475-f3b8-4980-b69a-4045e6aa10ff"
+          
         },
       })
       const users = await res.json()
