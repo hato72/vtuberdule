@@ -14,6 +14,7 @@ https://vtuberdule-pink.vercel.app/
 
 #### 参考
 https://github.com/eternaleight/custom-holo-app
+
 https://docs.holodex.net/
 
 #### 主な機能
