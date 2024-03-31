@@ -8,7 +8,8 @@ yarn dev
 ```
 
 #### 補足
-(https://holodex.net/)でAPIを取得し、.env.localファイルに記述する
+(https://holodex.net/)
+でAPIを取得し、.env.localファイルに記述する
 
 NEXT_PUBLIC_HOLODEX_API_KEYのように、prefixでNEXT_PUBLICを指定しなければenvからAPIを取得できなかった
 
