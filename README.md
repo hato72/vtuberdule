@@ -17,6 +17,8 @@ NEXT_PUBLIC_HOLODEX_API_KEYのように、prefixでNEXT_PUBLICを指定しなけ
 #### デプロイ先(vercel)
 https://vtuberdule-pink.vercel.app/
 
+#### デモ動画
+https://drive.google.com/file/d/1KLCrtyJ3dqMi3pXfyomGmsaRGoA8dUJO/view?usp=drive_link
 
 #### 参考
 https://github.com/eternaleight/custom-holo-app
