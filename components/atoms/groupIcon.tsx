@@ -5,31 +5,6 @@ import { GroupContext } from "./groupContext"
 import { Api } from "./liveCard"
 //import HOLODEX_API_KEY from "@/env"
 
-// export type Api = {
-//   available_at: string
-//   channel: {
-//     english_name: string
-//     id: string
-//     name: string
-//     //org?: ""
-//     org?: "Hololive" | "Nijisanji" | "Aogiri Highschool" | "VSpo"
-//     photo: string
-//     type: string
-//   }
-//   duration: number
-//   id: string
-//   live_viewres: number
-//   published_at: string
-//   start_actual: string
-//   start_scheduled: string
-//   status: "live" | "upcoming"
-//   title: string
-//   topic_id: string
-//   type: string
-// }
-
-
-
 const GroupIcon = () => {
   const holoVideo = "https://www.youtube.com/watch?v="
   const holoUrl = "https://holodex.net/api/v2/live/"
