@@ -39,6 +39,7 @@ next-env.d.ts
 
 .env
 prettier.config.js
+/public/
 
 /components/layouts/footer.tsx
 /components/layouts/hero.tsx
