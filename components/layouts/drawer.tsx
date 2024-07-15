@@ -1,7 +1,5 @@
 import HoloButton from "../atoms/Hololive"
 
-
-
 interface Props {
     isOpenDrawer: boolean
     toggleDrawer: () => void

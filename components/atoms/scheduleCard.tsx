@@ -7,7 +7,6 @@ import { GroupContext } from "./groupContext"
 import { Api } from "./liveCard"
 import { GlobalChangeCardContext } from "@/utils/globalChangeCardObserver"
 
-
 //import HOLODEX_API_KEY from "@/env"
 
 interface Props {
@@ -55,7 +54,6 @@ const ScheduleCard = ({searchQuery}:Props) => {
     return getFilteredData(selectedGroup)
   }
 
-  
   // 検索クエリに一致する配信者をフィルタリングする関数
   const filterSearchResults = () => {
     if (!searchQuery) { //検索窓に何も入っていないときはそのまま

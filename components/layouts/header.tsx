@@ -12,8 +12,6 @@ interface Props {
   onSearch: (query:string) => void
 }
 
-
-
 const Header = ({ isOpenDrawer, isFixedVideo, toggleDrawer, toggleFixedVideo, onSearch }: Props) => {
   
   const [searchQuery, setSearchQuery] = useState('');
