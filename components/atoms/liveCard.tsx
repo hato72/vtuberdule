@@ -170,9 +170,7 @@ const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
       ) : null}
 
       {/* 検索窓に入力がある時、入力に応じて配信者の検索を行う */}
-      {searchQuery && renderedData.length === 0 ? (
-        <div className="text-white text-center mt-4">見つかりません</div>
-      ) : ( renderedData.map((holoDatas: Api, index) =>
+      {searchQuery && renderedData.map((holoDatas: Api, index) =>
         isCorrectLiveHoloUrl(holoDatas) ? (
           <div
             key={holoDatas.id}
@@ -207,7 +205,6 @@ const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
             </a>
           </div>
         ) : null
-      )
       )}
       
       {!searchQuery && Groupfilter().map((holoDatas: Api, index) => {
