@@ -76,13 +76,13 @@ const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
 
   //const dotenv = require('dotenv').config();
 
+
   useEffect(() => {
     setLoading(true)
     ;(async () => {
       const res = await fetch(holoUrl, {
         headers: {
           "X-APIKEY": process.env.NEXT_PUBLIC_HOLODEX_API_KEY || "",
-          
         },
       })
       const users = await res.json()
@@ -91,14 +91,15 @@ const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
     setLoading(false)
   }, [])
 
-
+  //事務所を判別する関数
   const getFilteredData = (org: string) => {
     return holoData.filter((data) => data.channel.org === org);
   };
 
   const {selectedGroup} = useContext(GroupContext)
 
-
+  //最初の画面もしくはAll Groupボタンが押された状態の時はholodataを返す
+  //それ以外のボタンであればgetFilterでグループ判別
   const Groupfilter = () => {
     if(selectedGroup === null || selectedGroup === "All Group"){
       return holoData
@@ -125,6 +126,7 @@ const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
   //   );
   // };
 
+  // 検索クエリに一致する配信者をフィルタリングする関数
   const filterSearchResults = () => {
     if (!searchQuery) { //検索窓に何も入っていないときはそのまま
       return holoData;
@@ -168,41 +170,44 @@ const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
       ) : null}
 
       {/* 検索窓に入力がある時、入力に応じて配信者の検索を行う */}
-      {searchQuery && renderedData.map((holoDatas: Api, index) =>
-      isCorrectLiveHoloUrl(holoDatas) ? (
-        <div
-          key={holoDatas.id}
-          className={`relative ${
-            isChangeLiveCardSize ? "w-[23.5vw]" : "w-[19vw]"
-          } max-xl:w-[24%] max-lg:w-[32%] max-mm:w-[48.5%] max-md:w-[48.5%] max-sm:w-[48.5%] max-xs:w-[48.5%] h-full flex flex-col border shadow-sm rounded-xl bg-gray-800 border-gray-700 shadow-slate-700/[.7]`}
-          onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
-          onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
-        >
+      {searchQuery && renderedData.length === 0 ? (
+        <div className="text-white text-center mt-4">見つかりません</div>
+      ) : ( renderedData.map((holoDatas: Api, index) =>
+        isCorrectLiveHoloUrl(holoDatas) ? (
           <div
-            className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
-            ref={ref}
-            style={{ display: isHidden ? "none" : "block" }}
-          ></div>
-          <div className="absolute text-xs font-bold text-center text-red-500 bottom-1 right-2 opacity-90 max-sm:text-[10px]">
-            <span className="mr-[1px]">●</span>REC
-          </div>
-          <a href={`${holoVideo}${holoDatas.id}`} target="_blank">
-            <img
-              className="w-full h-auto rounded-t-xl"
-              src={youtube_jpeg + holoDatas.id + youtube_jpeg_size.large}
-              alt="Image Description"
-            />
-            <div className="p-2 md:p-3">
-              <div className="text-gray-400 max-sm:text-[14px]">
-                {dayjs(holoDatas.start_scheduled).format("HH:mm")}
-              </div>
-              <h3 className="flex font-bold text-md text-white max-sm:text-[12px]">
-                {holoDatas.title}
-              </h3>
+            key={holoDatas.id}
+            className={`relative ${
+              isChangeLiveCardSize ? "w-[23.5vw]" : "w-[19vw]"
+            } max-xl:w-[24%] max-lg:w-[32%] max-mm:w-[48.5%] max-md:w-[48.5%] max-sm:w-[48.5%] max-xs:w-[48.5%] h-full flex flex-col border shadow-sm rounded-xl bg-gray-800 border-gray-700 shadow-slate-700/[.7]`}
+            onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
+            onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
+          >
+            <div
+              className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
+              ref={ref}
+              style={{ display: isHidden ? "none" : "block" }}
+            ></div>
+            <div className="absolute text-xs font-bold text-center text-red-500 bottom-1 right-2 opacity-90 max-sm:text-[10px]">
+              <span className="mr-[1px]">●</span>REC
             </div>
-          </a>
-        </div>
-      ) : null
+            <a href={`${holoVideo}${holoDatas.id}`} target="_blank">
+              <img
+                className="w-full h-auto rounded-t-xl"
+                src={youtube_jpeg + holoDatas.id + youtube_jpeg_size.large}
+                alt="Image Description"
+              />
+              <div className="p-2 md:p-3">
+                <div className="text-gray-400 max-sm:text-[14px]">
+                  {dayjs(holoDatas.start_scheduled).format("HH:mm")}
+                </div>
+                <h3 className="flex font-bold text-md text-white max-sm:text-[12px]">
+                  {holoDatas.title}
+                </h3>
+              </div>
+            </a>
+          </div>
+        ) : null
+      )
       )}
       
       {!searchQuery && Groupfilter().map((holoDatas: Api, index) => {
