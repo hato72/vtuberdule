@@ -13,22 +13,36 @@ import (
 func Login(c *gin.Context) {
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
+		fmt.Printf("JSON binding error: %v\n", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "リクエストが不正です"})
 		return
 	}
+	fmt.Printf("Login attempt for email: %s\n", user.Email)
 
 	dbUser, err := database.GetUserByEmail(user.Email)
 	if err != nil {
+		fmt.Printf("Database error: %v\n", err)
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "メールアドレスまたはパスワードが正しくありません"})
 		return
 	}
 
+	// パスワードの検証を追加
 	if err := bcrypt.CompareHashAndPassword([]byte(dbUser.Password), []byte(user.Password)); err != nil {
+		fmt.Printf("Password verification failed: %v\n", err)
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "メールアドレスまたはパスワードが正しくありません"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "ログインに成功しました"})
+	// ログイン成功
+	fmt.Printf("Login successful for user: %s\n", dbUser.Username)
+	c.JSON(http.StatusOK, gin.H{
+		"message": "ログインに成功しました",
+		"user": gin.H{
+			"id":       dbUser.ID,
+			"username": dbUser.Username,
+			"email":    dbUser.Email,
+		},
+	})
 }
 
 func Register(c *gin.Context) {

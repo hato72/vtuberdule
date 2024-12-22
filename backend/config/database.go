@@ -13,7 +13,7 @@ var DB *pgxpool.Pool
 
 func ConnectDB() error {
 	// .env ファイルを読み込む
-	err := godotenv.Load()
+	err := godotenv.Load("C:/Users/hatot/.vscode/vtuberdule/backend/.env")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error loading .env file: %v\n", err)
 	}
@@ -45,6 +45,10 @@ func ConnectDB() error {
 		return fmt.Errorf("failed to create users table: %w", err)
 	}
 
+	if err := CreateFavoritesTable(); err != nil {
+		return fmt.Errorf("failed to create favorites table: %w", err)
+	}
+
 	return nil
 }
 
@@ -63,4 +67,20 @@ func createUsersTable() error {
 		fmt.Println("Error creating users table:", err)
 	}
 	return err
+}
+
+func CreateFavoritesTable() error {
+	query := `
+		CREATE TABLE IF NOT EXISTS favorites (
+			user_id INTEGER NOT NULL,
+			vtuber_id TEXT NOT NULL,
+			FOREIGN KEY (user_id) REFERENCES users(id),
+			PRIMARY KEY (user_id, vtuber_id)
+		);
+	`
+	_, err := DB.Exec(context.Background(), query)
+	if err != nil {
+		return fmt.Errorf("お気に入りテーブルの作成に失敗しました: %w", err)
+	}
+	return nil
 }
