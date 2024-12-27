@@ -41,7 +41,7 @@ const Header = ({ isOpenDrawer, isFixedVideo, toggleDrawer, toggleFixedVideo, on
           placeholder="Search..."
           value={searchQuery}
           onChange={handleSearch}
-          className="px-2 py-1 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
+          className="px-2 py-1 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500 text-black"
         />
 
         <div className="md:block hidden absolute pl-3 top-[8px] left-[0px] cursor-pointer">
