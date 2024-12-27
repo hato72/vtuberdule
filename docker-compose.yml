@@ -1,0 +1,21 @@
+services:
+  backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file: # .envファイルから環境変数を読み込む
+      - backned/.env # .envファイルのパスを指定
+    depends_on:
+      - postgres # PostgreSQLが起動するまで待機
+  postgres:
+    image: postgres:latest
+    ports:
+      - "6543:6543" # ポート番号を.envファイルのものに合わせる
+    env_file: # PostgreSQLコンテナにも.envファイルから環境変数を読み込む
+      - backend/.env
+    environment: # .envファイルで定義されていない環境変数を設定
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
