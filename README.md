@@ -1,4 +1,5 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+![vtuberdule](https://github.com/user-attachments/assets/4aa62eab-a64f-4446-b17f-eac86cd3622d)
 
 #### Getting Started
 ```bash
