@@ -2,12 +2,9 @@ import dayjs from "dayjs"
 import React,{ useContext, useEffect, useRef, useState } from "react"
 import { isCorrectLiveHoloUrl } from "../../utils/util"
 import { GlobalChangeCardContext } from "../../utils/globalChangeCardObserver"
-// import HoverVideo from "./hoverVideo"
 import { GroupContext } from "./groupContext"
-
-// import liveCardFilter from "./liveCardFilter"
-
-//import HOLODEX_API_KEY from "@/env"
+import FavoriteButton from "./FavoriteButton"
+import { useAuth } from "./AuthContext"
 
 export type Api = {
   available_at: string
@@ -37,7 +34,7 @@ interface Props {
   searchQuery: string
 }
 
-const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
+const LiveCard = ({ isFixedVideo, searchQuery}: Props) => {
   const youtube_jpeg = "https://img.youtube.com/vi/"
   const youtube_jpeg_size = {
     large: "/maxresdefault.jpg",
@@ -50,12 +47,11 @@ const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
   const [loading, setLoading] = useState<boolean>(true)
   const [isHidden, setIsHidden] = useState(false)
   const [fixedVideo, setFixedVideo] = useState(false)
+  const [favorites, setFavorites] = useState<string[]>([])
   const { isChangeLiveCardSize } = useContext(GlobalChangeCardContext)
+  const { isAuthenticated, token } = useAuth()
+  const { isFavoriteFilter } = useContext(GroupContext)
   const ref = useRef<HTMLDivElement>(null)
-
-  const handleFixed = () => {
-    setFixedVideo(!fixedVideo)
-  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -74,9 +70,6 @@ const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
     return () => window.removeEventListener("resize", handleResize)
   }, [ref])
 
-  //const dotenv = require('dotenv').config();
-
-
   useEffect(() => {
     setLoading(true)
     ;(async () => {
@@ -91,74 +84,127 @@ const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
     setLoading(false)
   }, [])
 
-  //事務所を判別する関数
+  // お気に入り一覧を取得
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (!isAuthenticated || !token) {
+        setFavorites([]);
+        return;
+      }
+      try {
+        const response = await fetch('http://localhost:8080/api/favorites', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setFavorites(data && Array.isArray(data) ? data.map((f: any) => f.vtuber_id) : []);
+        }
+      } catch (error) {
+        console.error('Error fetching favorites:', error);
+        setFavorites([]);
+      }
+    };
+    fetchFavorites();
+  }, [isAuthenticated, token]);
+
   const getFilteredData = (org: string) => {
     return holoData.filter((data) => data.channel.org === org);
   };
 
   const {selectedGroup} = useContext(GroupContext)
 
-  //最初の画面もしくはAll Groupボタンが押された状態の時はholodataを返す
-  //それ以外のボタンであればgetFilterでグループ判別
   const Groupfilter = () => {
-    if(selectedGroup === null || selectedGroup === "All Group"){
-      return holoData
+    let filteredData = holoData;
+    
+    // グループフィルター
+    if(selectedGroup && selectedGroup !== "All Group") {
+      filteredData = getFilteredData(selectedGroup);
     }
-    return getFilteredData(selectedGroup)
+
+    // お気に入りフィルター
+    if (isFavoriteFilter && isAuthenticated) {
+      filteredData = filteredData.filter(data => favorites.includes(data.id));
+    }
+
+    return filteredData;
   }
 
-
-
-  // 検索クエリに一致する配信者をフィルタリングする関数
-  // const filterSearchResults = () => {
-  //   if (!searchQuery) { //検索窓に何も入っていないときはそのまま
-  //     return holoData;
-  //   }
-
-  //   if (selectedGroup === null || selectedGroup === "All Group"){ //検索窓に文字列が入力されていて、かつ初期画面かAll Groupボタンを押していた場合
-  //     return holoData.filter((holoData) =>
-  //       holoData.channel.name.toLowerCase().normalize().includes(searchQuery.toLowerCase().normalize())
-  //     );
-  //   }
-  //   //All Group以外のボタンを押している状態で入力を行った場合
-  //   return holoData.filter((Data) =>
-  //       Data.channel.org === selectedGroup && Data.channel.name.toLowerCase().normalize().includes(searchQuery.toLowerCase().normalize())
-  //   );
-  // };
-
-  // 検索クエリに一致する配信者をフィルタリングする関数
   const filterSearchResults = () => {
-    if (!searchQuery) { //検索窓に何も入っていないときはそのまま
+    if (!searchQuery) {
       return holoData;
     }
 
     const searchQuery_ = searchQuery.toLowerCase()
+    let filteredData = holoData;
 
-    if (selectedGroup === null || selectedGroup === "All Group"){ //検索窓に文字列が入力されていて、かつ初期画面かAll Groupボタンを押していた場合
-      return holoData.filter((holoData) =>{
-        const channel_ = holoData.channel.name.toLowerCase().includes(searchQuery_)
-        const title_ = holoData.title.toLowerCase().includes(searchQuery_)
-        return (
-          channel_ || title_
-        )
-      });
+    if (selectedGroup && selectedGroup !== "All Group"){ 
+      filteredData = getFilteredData(selectedGroup);
     }
-    //All Group以外のボタンを押している状態で入力を行った場合
-    return holoData.filter((holoData) =>{
+
+    // お気に入りフィルター
+    if (isFavoriteFilter && isAuthenticated) {
+      filteredData = filteredData.filter(data => favorites.includes(data.id));
+    }
+
+    return filteredData.filter((holoData) =>{
       const channel_ = holoData.channel.name.toLowerCase().includes(searchQuery_)
       const title_ = holoData.title.toLowerCase().includes(searchQuery_)
-      return (
-        holoData.channel.org === selectedGroup && (channel_ || title_)
-      )
+      return channel_ || title_
     });
   };
 
-  // レンダリングする配信者データを決定する
-  const renderedData = searchQuery ? filterSearchResults() : holoData;
+  const renderedData = searchQuery ? filterSearchResults() : Groupfilter();
+
+  const renderCard = (holoDatas: Api, index: number) => (
+    isCorrectLiveHoloUrl(holoDatas) ? (
+      <div
+        key={holoDatas.id}
+        className={`relative ${
+          isChangeLiveCardSize ? "w-[23.5vw]" : "w-[19vw]"
+        } max-xl:w-[24%] max-lg:w-[32%] max-mm:w-[48.5%] max-md:w-[48.5%] max-sm:w-[48.5%] max-xs:w-[48.5%] h-full flex flex-col border shadow-sm rounded-xl bg-gray-800 border-gray-700 shadow-slate-700/[.7]`}
+        onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
+        onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
+      >
+        <div
+          className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
+          ref={ref}
+          style={{ display: isHidden ? "none" : "block" }}
+        />
+        <div className="absolute text-xs font-bold text-center text-red-500 bottom-1 right-2 opacity-90 max-sm:text-[10px]">
+          <span className="mr-[1px]">●</span>REC
+        </div>
+        {isAuthenticated && (
+          <div className="absolute top-2 right-2 z-10">
+            <FavoriteButton 
+              vtuberId={holoDatas.id}
+              vtuberName={holoDatas.channel.name}
+              organization={holoDatas.channel.org || ""}
+            />
+          </div>
+        )}
+        <a href={`${holoVideo}${holoDatas.id}`} target="_blank">
+          <img
+            className="w-full h-auto rounded-t-xl"
+            src={youtube_jpeg + holoDatas.id + youtube_jpeg_size.large}
+            alt="Image Description"
+          />
+          <div className="p-2 md:p-3">
+            <div className="text-gray-400 max-sm:text-[14px]">
+              {dayjs(holoDatas.start_scheduled).format("HH:mm")}
+            </div>
+            <h3 className="flex font-bold text-md text-white max-sm:text-[12px]">
+              {holoDatas.title}
+            </h3>
+          </div>
+        </a>
+      </div>
+    ) : null
+  );
 
   return (
     <>
-
       {loading ? (
         <div
           className="fixed z-[2] top-[40%] animate-spin inline-block w-10 h-10 border-[3px] border-current border-t-transparent text-[#F3F4F6] rounded-full"
@@ -169,301 +215,11 @@ const LiveCard = ({ isFixedVideo,searchQuery}: Props) => {
         </div>
       ) : null}
 
-      {/* 検索窓に入力がある時、入力に応じて配信者の検索を行う */}
-      {searchQuery && renderedData.map((holoDatas: Api, index) =>
-        isCorrectLiveHoloUrl(holoDatas) ? (
-          <div
-            key={holoDatas.id}
-            className={`relative ${
-              isChangeLiveCardSize ? "w-[23.5vw]" : "w-[19vw]"
-            } max-xl:w-[24%] max-lg:w-[32%] max-mm:w-[48.5%] max-md:w-[48.5%] max-sm:w-[48.5%] max-xs:w-[48.5%] h-full flex flex-col border shadow-sm rounded-xl bg-gray-800 border-gray-700 shadow-slate-700/[.7]`}
-            onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
-            onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
-          >
-            <div
-              className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
-              ref={ref}
-              style={{ display: isHidden ? "none" : "block" }}
-            ></div>
-            <div className="absolute text-xs font-bold text-center text-red-500 bottom-1 right-2 opacity-90 max-sm:text-[10px]">
-              <span className="mr-[1px]">●</span>REC
-            </div>
-            <a href={`${holoVideo}${holoDatas.id}`} target="_blank">
-              <img
-                className="w-full h-auto rounded-t-xl"
-                src={youtube_jpeg + holoDatas.id + youtube_jpeg_size.large}
-                alt="Image Description"
-              />
-              <div className="p-2 md:p-3">
-                <div className="text-gray-400 max-sm:text-[14px]">
-                  {dayjs(holoDatas.start_scheduled).format("HH:mm")}
-                </div>
-                <h3 className="flex font-bold text-md text-white max-sm:text-[12px]">
-                  {holoDatas.title}
-                </h3>
-              </div>
-            </a>
-          </div>
-        ) : null
-      )}
+      {searchQuery && renderedData.map((holoDatas: Api, index) => renderCard(holoDatas, index))}
       
-      {!searchQuery && Groupfilter().map((holoDatas: Api, index) => {
-      {/* {selectedGroup=== null && holoData.map((holoDatas: Api, index) => { */}
-        return isCorrectLiveHoloUrl(holoDatas) ? (
-          <div
-            key={holoDatas.id}
-            className={`relative ${
-              isChangeLiveCardSize ? "w-[23.5vw]" : "w-[19vw]"
-            } max-xl:w-[24%] max-lg:w-[32%] max-mm:w-[48.5%] max-md:w-[48.5%] max-sm:w-[48.5%] max-xs:w-[48.5%] h-full flex flex-col border shadow-sm rounded-xl bg-gray-800 border-gray-700 shadow-slate-700/[.7]`}
-            onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
-            onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
-          >
-            {/* {isFixedVideo ? (
-              <button
-                className={`${
-                  fixedVideo ? "opacity-80" : "opacity-30"
-                } hover:opacity-100 rounded-t-[11px] mb-[0.5px]`}
-                onClick={handleFixed}
-              >
-                🧷 Preview固定 {fixedVideo ? "on" : "off"}
-              </button>
-            ) : undefined} */}
-            <div
-              className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
-              ref={ref}
-              style={{ display: isHidden ? "none" : "block" }}
-            >
-              
-            </div>
-            <div className="absolute text-xs font-bold text-center text-red-500 bottom-1 right-2 opacity-90 max-sm:text-[10px]">
-              <span className="mr-[1px]">●</span>REC
-            </div>
-            <a href={`${holoVideo}${holoDatas.id}`} target="_blank">
-              <img
-                className="w-full h-auto rounded-t-xl"
-                src={youtube_jpeg + holoDatas.id + youtube_jpeg_size.large}
-                alt="Image Description"
-              />
-              <div className="p-2 md:p-3">
-                <div className="text-gray-400 max-sm:text-[14px]">
-                  {dayjs(holoDatas.start_scheduled).format("HH:mm")}
-                </div>
-                <h3 className="flex font-bold text-md text-white max-sm:text-[12px]">
-                  {holoDatas.title}
-                </h3>
-              </div>
-            </a>
-          </div>
-        ) : null
-      })}
+      {!searchQuery && Groupfilter().map((holoDatas: Api, index) => renderCard(holoDatas, index))}
     </>
   )
-}  
+}
 
 export default LiveCard
-
-      {/* {selectedGroup=== "All Group" && holoData.map((holoDatas: Api, index) => {
-        return isCorrectLiveHoloUrl(holoDatas) ? (
-          <div
-            key={holoDatas.id}
-            className={`relative ${
-              isChangeLiveCardSize ? "w-[23.5vw]" : "w-[19vw]"
-            } max-xl:w-[24%] max-lg:w-[32%] max-mm:w-[48.5%] max-md:w-[48.5%] max-sm:w-[48.5%] max-xs:w-[48.5%] h-full flex flex-col border shadow-sm rounded-xl bg-gray-800 border-gray-700 shadow-slate-700/[.7]`}
-            onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
-            onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
-          >
-            
-            <div
-              className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
-              ref={ref}
-              style={{ display: isHidden ? "none" : "block" }}
-            >
-              
-            </div>
-            <div className="absolute text-xs font-bold text-center text-red-500 bottom-1 right-2 opacity-90 max-sm:text-[10px]">
-              <span className="mr-[1px]">●</span>REC
-            </div>
-            <a href={`${holoVideo}${holoDatas.id}`} target="_blank">
-              <img
-                className="w-full h-auto rounded-t-xl"
-                src={youtube_jpeg + holoDatas.id + youtube_jpeg_size.large}
-                alt="Image Description"
-              />
-              <div className="p-2 md:p-3">
-                <div className="text-gray-400 max-sm:text-[14px]">
-                  {dayjs(holoDatas.start_scheduled).format("HH:mm")}
-                </div>
-                <h3 className="flex font-bold text-md text-white max-sm:text-[12px]">
-                  {holoDatas.title}
-                </h3>
-              </div>
-            </a>
-          </div>
-        ) : null
-      })}
-
-
-      {selectedGroup=== "Hololive" && getFilteredData("Hololive").map((holoDatas: Api, index) => {
-        return isCorrectLiveHoloUrl(holoDatas) ? (
-          <div
-            key={holoDatas.id}
-            className={`relative ${
-              isChangeLiveCardSize ? "w-[23.5vw]" : "w-[19vw]"
-            } max-xl:w-[24%] max-lg:w-[32%] max-mm:w-[48.5%] max-md:w-[48.5%] max-sm:w-[48.5%] max-xs:w-[48.5%] h-full flex flex-col border shadow-sm rounded-xl bg-gray-800 border-gray-700 shadow-slate-700/[.7]`}
-            onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
-            onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
-          >
-            
-            <div
-              className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
-              ref={ref}
-              style={{ display: isHidden ? "none" : "block" }}
-            >
-              
-            </div>
-            <div className="absolute text-xs font-bold text-center text-red-500 bottom-1 right-2 opacity-90 max-sm:text-[10px]">
-              <span className="mr-[1px]">●</span>REC
-            </div>
-            <a href={`${holoVideo}${holoDatas.id}`} target="_blank">
-              <img
-                className="w-full h-auto rounded-t-xl"
-                src={youtube_jpeg + holoDatas.id + youtube_jpeg_size.large}
-                alt="Image Description"
-              />
-              <div className="p-2 md:p-3">
-                <div className="text-gray-400 max-sm:text-[14px]">
-                  {dayjs(holoDatas.start_scheduled).format("HH:mm")}
-                </div>
-                <h3 className="flex font-bold text-md text-white max-sm:text-[12px]">
-                  {holoDatas.title}
-                </h3>
-              </div>
-            </a>
-          </div>
-        ) : null
-      })}
-
-      {selectedGroup=== "Nijisanji" && getFilteredData("Nijisanji").map((holoDatas: Api, index) => {
-        return isCorrectLiveHoloUrl(holoDatas) ? (
-          <div
-            key={holoDatas.id}
-            className={`relative ${
-              isChangeLiveCardSize ? "w-[23.5vw]" : "w-[19vw]"
-            } max-xl:w-[24%] max-lg:w-[32%] max-mm:w-[48.5%] max-md:w-[48.5%] max-sm:w-[48.5%] max-xs:w-[48.5%] h-full flex flex-col border shadow-sm rounded-xl bg-gray-800 border-gray-700 shadow-slate-700/[.7]`}
-            onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
-            onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
-          >
-            
-            <div
-              className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
-              ref={ref}
-              style={{ display: isHidden ? "none" : "block" }}
-            >
-              
-            </div>
-            <div className="absolute text-xs font-bold text-center text-red-500 bottom-1 right-2 opacity-90 max-sm:text-[10px]">
-              <span className="mr-[1px]">●</span>REC
-            </div>
-            <a href={`${holoVideo}${holoDatas.id}`} target="_blank">
-              <img
-                className="w-full h-auto rounded-t-xl"
-                src={youtube_jpeg + holoDatas.id + youtube_jpeg_size.large}
-                alt="Image Description"
-              />
-              <div className="p-2 md:p-3">
-                <div className="text-gray-400 max-sm:text-[14px]">
-                  {dayjs(holoDatas.start_scheduled).format("HH:mm")}
-                </div>
-                <h3 className="flex font-bold text-md text-white max-sm:text-[12px]">
-                  {holoDatas.title}
-                </h3>
-              </div>
-            </a>
-          </div>
-        ) : null
-      })}
-
-      {selectedGroup=== "Aogiri Highschool" && getFilteredData("Aogiri Highschool").map((holoDatas: Api, index) => {
-        return isCorrectLiveHoloUrl(holoDatas) ? (
-          <div
-            key={holoDatas.id}
-            className={`relative ${
-              isChangeLiveCardSize ? "w-[23.5vw]" : "w-[19vw]"
-            } max-xl:w-[24%] max-lg:w-[32%] max-mm:w-[48.5%] max-md:w-[48.5%] max-sm:w-[48.5%] max-xs:w-[48.5%] h-full flex flex-col border shadow-sm rounded-xl bg-gray-800 border-gray-700 shadow-slate-700/[.7]`}
-            onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
-            onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
-          >
-            
-            <div
-              className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
-              ref={ref}
-              style={{ display: isHidden ? "none" : "block" }}
-            >
-             
-            </div>
-            <div className="absolute text-xs font-bold text-center text-red-500 bottom-1 right-2 opacity-90 max-sm:text-[10px]">
-              <span className="mr-[1px]">●</span>REC
-            </div>
-            <a href={`${holoVideo}${holoDatas.id}`} target="_blank">
-              <img
-                className="w-full h-auto rounded-t-xl"
-                src={youtube_jpeg + holoDatas.id + youtube_jpeg_size.large}
-                alt="Image Description"
-              />
-              <div className="p-2 md:p-3">
-                <div className="text-gray-400 max-sm:text-[14px]">
-                  {dayjs(holoDatas.start_scheduled).format("HH:mm")}
-                </div>
-                <h3 className="flex font-bold text-md text-white max-sm:text-[12px]">
-                  {holoDatas.title}
-                </h3>
-              </div>
-            </a>
-          </div>
-        ) : null
-      })}
-
-      {selectedGroup=== "VSpo" && getFilteredData("VSpo").map((holoDatas: Api, index) => {
-        return isCorrectLiveHoloUrl(holoDatas) ? (
-          <div
-            key={holoDatas.id}
-            className={`relative ${
-              isChangeLiveCardSize ? "w-[23.5vw]" : "w-[19vw]"
-            } max-xl:w-[24%] max-lg:w-[32%] max-mm:w-[48.5%] max-md:w-[48.5%] max-sm:w-[48.5%] max-xs:w-[48.5%] h-full flex flex-col border shadow-sm rounded-xl bg-gray-800 border-gray-700 shadow-slate-700/[.7]`}
-            onMouseEnter={!fixedVideo ? () => setIsHovering(index) : undefined}
-            onMouseLeave={!fixedVideo ? () => setIsHovering(-1) : undefined}
-          >
-            
-            <div
-              className={`${isHovering === index ? "" : "absolute z-[-1]"}`}
-              ref={ref}
-              style={{ display: isHidden ? "none" : "block" }}
-            >
-             
-            </div>
-            <div className="absolute text-xs font-bold text-center text-red-500 bottom-1 right-2 opacity-90 max-sm:text-[10px]">
-              <span className="mr-[1px]">●</span>REC
-            </div>
-            <a href={`${holoVideo}${holoDatas.id}`} target="_blank">
-              <img
-                className="w-full h-auto rounded-t-xl"
-                src={youtube_jpeg + holoDatas.id + youtube_jpeg_size.large}
-                alt="Image Description"
-              />
-              <div className="p-2 md:p-3">
-                <div className="text-gray-400 max-sm:text-[14px]">
-                  {dayjs(holoDatas.start_scheduled).format("HH:mm")}
-                </div>
-                <h3 className="flex font-bold text-md text-white max-sm:text-[12px]">
-                  {holoDatas.title}
-                </h3>
-              </div>
-            </a>
-          </div>
-        ) : null
-      })} */}
-    // </>
-//   )
-// }
-
-// export default LiveCard

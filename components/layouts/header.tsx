@@ -1,23 +1,33 @@
 import GroupIcon from "../atoms/groupIcon"
 import ActionControlsButton from "../atoms/actionControlButton"
-//import { Api } from "../atoms/groupIcon"
 import { useState } from "react"
+import { useAuth } from "../atoms/AuthContext"
+import { useRouter } from "next/router"
 
 interface Props {
   isOpenDrawer: boolean
   isFixedVideo: boolean
   toggleDrawer: () => void
   toggleFixedVideo: () => void
-  //groupData: Api[]
   onSearch: (query:string) => void
 }
 
 const Header = ({ isOpenDrawer, isFixedVideo, toggleDrawer, toggleFixedVideo, onSearch }: Props) => {
-  
   const [searchQuery, setSearchQuery] = useState('');
+  const { isAuthenticated, logout } = useAuth();
+  const router = useRouter();
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-    onSearch(e.target.value); // 検索クエリを親コンポーネントに渡す
+    onSearch(e.target.value);
+  };
+
+  const handleAuth = () => {
+    if (isAuthenticated) {
+      logout();
+    } else {
+      router.push('/login');
+    }
   };
 
   return (
@@ -31,11 +41,8 @@ const Header = ({ isOpenDrawer, isFixedVideo, toggleDrawer, toggleFixedVideo, on
           isFixedVideo={isFixedVideo}
           toggleDrawer={toggleDrawer}
           toggleFixedVideo={toggleFixedVideo}
-
-          //groupData={groupData}
         />
         
-        {/* 検索窓 */}
         <input
           type="text"
           placeholder="Search..."
@@ -43,6 +50,45 @@ const Header = ({ isOpenDrawer, isFixedVideo, toggleDrawer, toggleFixedVideo, on
           onChange={handleSearch}
           className="px-2 py-1 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500 text-black"
         />
+
+        <button
+          onClick={handleAuth}
+          className="cursor-pointer inline-flex items-center px-4 h-[46px] min-w-[120px] rounded-full border border-gray-400 text-gray-600 hover:bg-gray-100 transition-colors whitespace-nowrap"
+        >
+          {isAuthenticated ? (
+            <>
+              <svg
+                className="w-5 h-5 mr-2"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4 M16 17l5-5-5-5 M21 12H9" />
+              </svg>
+              <span>ログアウト</span>
+            </>
+          ) : (
+            <>
+              <svg
+                className="w-5 h-5 mr-2"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4 M10 17l5-5-5-5 M15 12H3" />
+              </svg>
+              <span>ログイン</span>
+            </>
+          )}
+        </button>
 
         <div className="md:block hidden absolute pl-3 top-[8px] left-[0px] cursor-pointer">
           <div className="text-[32px] text-slate-900"></div>

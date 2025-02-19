@@ -1,12 +1,14 @@
-import "@/styles/globals.css";
+import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { GroupProvider } from "@/components/atoms/groupContext";
+import { GroupProvider } from "../components/atoms/groupContext";
+import { AuthProvider } from "../components/atoms/AuthContext";
 
 export default function App({ Component, pageProps }: AppProps) {
-  // return <Component {...pageProps} />;
   return (
-    <GroupProvider>
-      <Component {...pageProps} />
-    </GroupProvider>
-  )
+    <AuthProvider>
+      <GroupProvider>
+        <Component {...pageProps} />
+      </GroupProvider>
+    </AuthProvider>
+  );
 }
